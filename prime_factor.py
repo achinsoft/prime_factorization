@@ -15,7 +15,8 @@ def hunt_prime(number_value_start_func, number_value_end_func):
                 break
         if is_prime:
             global prime_number_count
-            #print(numbers)
+            global prime_number_list
+            prime_number_list=prime_number_list + "\n" + str(numbers)
             prime_number_count += 1
 
 
@@ -24,9 +25,9 @@ total_thread = 4
 segment_number = int(number_value / 4)
 # print(half_point_number)
 prime_number_count = 0
-
+prime_number_list = ""
 # creating thread
-number_value_start = 2
+number_value_start = 100000
 number_value_end = segment_number
 print(f"t1 start {number_value_start}  end {number_value_end}")
 t1 = threading.Thread(target=hunt_prime, args=(number_value_start, number_value_end,))
@@ -52,3 +53,7 @@ t3.join()
 t4.join()
 print(f"Total prime numbers between 2-{number_value} is {prime_number_count}")
 print("--- %s mins ---" % ((time.time() - start_time) / 60))
+f = open("prime.txt", "w")
+f.write(prime_number_list)
+f.close()
+print("Data saved in file 'prime.txt'")
