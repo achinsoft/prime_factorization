@@ -1,8 +1,6 @@
 import threading
 import time
 
-start_time = time.time()
-
 
 def hunt_prime(number_value_start_func, number_value_end_func):
     for numbers in range(number_value_start_func, number_value_end_func):
@@ -21,10 +19,10 @@ def hunt_prime(number_value_start_func, number_value_end_func):
 
 
 number_value_start = int(input("Enter the start value : "))
-
 start_position = number_value_start
 number_value = int(input("Enter the end value : "))
-total_number_check = number_value-start_position
+start_time = time.time()
+total_number_check = number_value - start_position
 print(f"Total number will be checked : {total_number_check}")
 total_thread = 12
 segment_number = int(total_number_check / total_thread)
