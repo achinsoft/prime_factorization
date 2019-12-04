@@ -1,33 +1,48 @@
-from multiprocessing import Process
+from multiprocessing import Process, Queue
 import time
 
 
 def hunt_prime(number_value_start_func, number_value_end_func):
-    for numbers in range(number_value_start_func, number_value_end_func):
-        is_prime = True
-        for number in range(2, (int(numbers / 2) + 1)):
-            # for number in range(2, numbers):
-            mod_value = numbers % number
-            if mod_value == 0:
-                is_prime = False
-                break
-        if is_prime:
-            global prime_number_count
-            global prime_number_list
-            f = open("prime.txt", "a")
-            f.write(str(numbers)+"\n")
-            f.close()
-            #print(numbers)
-           # prime_number_list = prime_number_list + "\n" + str(numbers)
-          #  prime_number_count += 1
+    if number_value_start_func % 2 == 0:
+        for numbers in range(number_value_start_func, number_value_end_func):
+            is_prime = True
+            for number in range(2, (int(numbers / 2) + 1)):
+                # for number in range(2, numbers):
+                mod_value = numbers % number
+                if mod_value == 0:
+                    is_prime = False
+                    break
+            if is_prime:
+                f1 = open("prime.txt", "a")
+                f1.write(str(numbers)+"\n")
+                f1.close()
+    else:
+        for numbers in range(number_value_start_func, number_value_end_func, 2):
+            is_prime = True
+            for number in range(2, (int(numbers / 2) + 1)):
+                # for number in range(2, numbers):
+                mod_value = numbers % number
+                if mod_value == 0:
+                    is_prime = False
+                    break
+            if is_prime:
+                f1 = open("prime.txt", "a")
+                f1.write(str(numbers)+"\n")
+                f1.close()
 
 
 if __name__ == '__main__':
     f = open("prime.txt", "w")
     f.close()
     number_value_start = int(input("Enter the start value : "))
+    if number_value_start < 2:
+        print("Invalid data..Auto Set to Default value")
+        number_value_start = 2
     start_position = number_value_start
     number_value = int(input("Enter the end value : "))
+    if number_value < number_value_start:
+        print("Invalid data..Auto Set to Default value")
+        number_value = number_value_start + 1
     start_time = time.time()
     total_number_check = number_value - start_position
     print(f"Total number will be checked : {total_number_check}")
@@ -132,6 +147,9 @@ if __name__ == '__main__':
     print("Thread11 end")
     t12.join()
     print("Thread12 end")
+    #os.system("sed -i \'/^$/d\' prime.txt")
+    prime_number_count = sum(1 for line in open('prime.txt'))
     print(f"Total prime numbers between {start_position} - {number_value} is {prime_number_count}")
     print("--- %s mins ---" % ((time.time() - start_time) / 60))
     print("Data saved in file 'prime.txt'")
+
