@@ -1,12 +1,13 @@
 from multiprocessing import Process, Queue
 import time
+import math
 
 
 def hunt_prime(number_value_start_func, number_value_end_func):
     if number_value_start_func % 2 == 0:
         for numbers in range(number_value_start_func, number_value_end_func):
             is_prime = True
-            for number in range(2, (int(numbers / 2) + 1)):
+            for number in range(2, (int(numbers) + 1)):
                 # for number in range(2, numbers):
                 mod_value = numbers % number
                 if mod_value == 0:

@@ -1,36 +1,40 @@
-from multiprocessing import Process, Queue
 import time
 
 
-def hunt_prime(number_to_check):
-    is_prime = True
-    for number in range(2, (int(number_to_check / 2) + 1)):
-        # for number in range(2, numbers):
-        mod_value = number_to_check % number
-        if mod_value == 0:
-            is_prime = False
-            break
-    if is_prime:
-        f1 = open("prime.txt", "a")
-        f1.write(str(number_to_check) + "\n")
-        f1.close()
+def SieveOfEratosthenes(n):
+    # Create a boolean array "prime[0..n]" and
+    # initialize all entries it as true. A value  
+    # in prime[i] will finally be false if i is 
+    # Not a prime, else true. 
+    prime = [True for i in range(n + 1)]
 
+    p = 2
+    while (p * p <= n):
 
-if __name__ == '__main__':
+        # If prime[p] is not changed, then it is  
+        # a prime
+        if (prime[p] == True):
+
+            # Update all multiples of p 
+            for i in range(p * 2, n + 1, p):
+                prime[i] = False
+        p += 1
+    c = 0
     f = open("prime.txt", "w")
+    # Print all prime numbers 
+    for p in range(2, n):
+        if prime[p]:
+          #  print(p)
+            f.write(str(p) + "\t")
+            c += 1
     f.close()
-    number_value_start = int(input("Enter the start value : "))
-    if number_value_start < 2:
-        print("Invalid data..Auto Set to Default value")
-        number_value_start = 2
-    start_position = number_value_start
-    number_value = int(input("Enter the end value : "))
-    if number_value < number_value_start:
-        print("Invalid data..Auto Set to Default value")
-        number_value = number_value_start + 1
-    start_time = time.time()
-    total_number_check = number_value - start_position
-    print(f"Total number will be checked : {total_number_check}")
-    total_thread = 4
-    print(f"Total thread {total_thread}")
-    t1 = Process(target=hunt_prime, args=(number_value_start,))
+    return c
+
+
+# Driver function
+t0 = time.time()
+c = SieveOfEratosthenes(100)
+print("Total prime numbers in range:", c)
+
+t1 = time.time()
+print("Time required:", t1 - t0) 
